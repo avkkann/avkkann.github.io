@@ -146,24 +146,40 @@
     }
 
     /* ============================================================
-       LOADER
+       AÇILIŞ PERDESİ (INTRO)
        ============================================================ */
-    .loader {
+    .intro {
       position: fixed; inset: 0; z-index: 9999;
-      background: var(--bg);
-      display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: linear-gradient(135deg, #0F5132 0%, #15724a 55%, #1D9E75 100%);
+      display: grid; place-items: center;
+      color: var(--white); text-align: center;
+      will-change: transform;
     }
-    .no-js .loader { display: none; }
-    .loader__dot {
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--primary);
-      animation: loader-pulse 0.9s ease-in-out infinite;
+    .no-js .intro { display: none; }
+    .intro__word {
+      display: block; overflow: hidden;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(56px, 12vw, 120px);
+      line-height: 1.08; letter-spacing: -0.03em;
+      padding-bottom: 0.04em;
     }
-    .loader__dot:nth-child(2) { animation-delay: 0.15s; background: var(--primary-light); }
-    .loader__dot:nth-child(3) { animation-delay: 0.3s; background: var(--accent); }
-    @keyframes loader-pulse {
-      0%, 100% { transform: scale(0.6); opacity: 0.4; }
-      50%      { transform: scale(1); opacity: 1; }
+    .intro__word .char { display: inline-block; will-change: transform; }
+    .intro__tag {
+      display: block; margin-top: 14px;
+      font-size: clamp(13px, 1.8vw, 16px);
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    .intro__line {
+      display: block; width: min(220px, 50vw); height: 2px;
+      margin: 30px auto 0; border-radius: 2px;
+      background: rgba(255, 255, 255, 0.18);
+      overflow: hidden;
+    }
+    .intro__line-fill {
+      display: block; width: 100%; height: 100%;
+      background: var(--accent);
+      transform: scaleX(0); transform-origin: left center;
     }
 
     /* ============================================================
@@ -398,8 +414,15 @@
       align-items: center; gap: clamp(40px, 6vw, 96px);
     }
     @media (max-width: 820px) {
-      .hiw-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .hiw-inner { grid-template-columns: 1fr; gap: 24px; text-align: center; }
       .hiw-visual { order: -1; }
+      h2.hiw-eyebrow { margin-bottom: 12px; }
+      p.hiw-step__desc { font-size: 16px; }
+      /* Sticky sahnede her şey tek ekrana sığsın: telefon yükseklik bazlı küçülür */
+      html.has-anim .hiw-stage { padding-top: calc(var(--nav-h-small) + 8px); }
+      html.has-anim .hiw-stage .phone { width: auto; height: min(40vh, 420px); border-width: 8px; border-radius: 32px; }
+      html.has-anim .hiw-stage .phone__screens { border-radius: 24px; }
+      html.has-anim .hiw-steps { min-height: 165px; }
     }
 
     .hiw-eyebrow {
@@ -431,7 +454,7 @@
     @media (max-width: 820px) { .hiw-step__desc { margin-inline: auto; } }
 
     .hiw-dots { display: flex; gap: 10px; margin-top: 40px; }
-    @media (max-width: 820px) { .hiw-dots { justify-content: center; } }
+    @media (max-width: 820px) { .hiw-dots { justify-content: center; margin-top: 20px; } }
     html:not(.has-anim) .hiw-dots { display: none; }
     .hiw-dot {
       display: block; width: 8px; height: 8px; border-radius: 999px;
@@ -677,11 +700,13 @@
 
   <a class="skip-link" href="#main">İçeriğe geç</a>
 
-  <!-- Yükleme ekranı -->
-  <div class="loader" id="loader" role="status" aria-label="Yükleniyor">
-    <span class="loader__dot"></span>
-    <span class="loader__dot"></span>
-    <span class="loader__dot"></span>
+  <!-- Açılış perdesi -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro__inner">
+      <span class="intro__word" id="intro-word">Pazar</span>
+      <span class="intro__tag">Türkiye'nin Akıllı Pazar Rehberi</span>
+      <span class="intro__line"><span class="intro__line-fill" id="intro-line"></span></span>
+    </div>
   </div>
 
   <!-- Hero arka planı: 3D sahne -->
@@ -989,19 +1014,14 @@
     var header = document.getElementById('site-header');
     var navToggle = document.getElementById('nav-toggle');
 
-    function updateHeader(scrollY) {
-      header.classList.toggle('scrolled', scrollY > 10);
+    function updateHeader() {
+      header.classList.toggle('scrolled', window.scrollY > 10);
     }
-    if (animOn) {
-      ScrollTrigger.create({
-        start: 0,
-        end: 'max',
-        onUpdate: function (self) { updateHeader(self.scroll()); }
-      });
-    } else {
-      window.addEventListener('scroll', function () { updateHeader(window.scrollY); }, { passive: true });
-    }
-    updateHeader(window.scrollY);
+    // Sade scroll listener: Lenis, programatik scroll ve scroll restorasyonu
+    // dahil her durumda native scroll event'i tetiklenir
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    window.addEventListener('load', updateHeader);
+    updateHeader();
 
     document.querySelectorAll('a[href^="#"]').forEach(function (link) {
       link.addEventListener('click', function (e) {
@@ -1171,7 +1191,7 @@
           camera.updateProjectionMatrix();
         });
 
-        return { render: render };
+        return { render: render, camera: camera };
       })();
     }
 
@@ -1285,15 +1305,17 @@
       var titleChars = splitChars(document.getElementById('hero-title'));
       var subtitleChars = splitChars(document.getElementById('hero-subtitle'));
 
-      gsap.set(titleChars, { opacity: 0, y: 70, rotateX: -45 });
+      gsap.set(titleChars, { opacity: 0, y: 70, rotateX: -45, filter: 'blur(8px)' });
       gsap.set(subtitleChars, { opacity: 0, y: 18 });
       gsap.set('.hero__badge, .hero__actions > *, .hero__hint', { opacity: 0, y: 20 });
+      gsap.set('.site-header', { opacity: 0, y: -16 });
 
       heroIntro = function () {
         gsap.timeline({ defaults: { ease: 'expo.out' } })
-          .to(titleChars, { opacity: 1, y: 0, rotateX: 0, duration: 1.1, stagger: 0.04 }, 0.05)
+          .to(titleChars, { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)', duration: 1.1, stagger: 0.04 }, 0.05)
           .to(subtitleChars, { opacity: 1, y: 0, duration: 0.7, stagger: 0.02 }, 0.45)
           .to('.hero__badge', { opacity: 1, y: 0, duration: 0.8 }, 0.3)
+          .to('.site-header', { opacity: 1, y: 0, duration: 0.7 }, 0.25)
           .to('.hero__actions > *', { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 0.85)
           .to('.hero__hint', { opacity: 0.7, y: 0, duration: 0.8, clearProps: 'transform' }, 1.1);
       };
@@ -1438,31 +1460,51 @@
     }
 
     /* ------------------------------------------------------------
-       LOADER: max 1 saniye, sonra hero girişi
+       AÇILIŞ PERDESİ: marka reveal → perde kalkar → hero girişi
        ------------------------------------------------------------ */
-    var loader = document.getElementById('loader');
-    var loaderDone = false;
+    var intro = document.getElementById('intro');
 
-    function hideLoader() {
-      if (loaderDone) return;
-      loaderDone = true;
-      if (animOn) {
-        gsap.to(loader, {
-          opacity: 0,
-          duration: 0.4,
-          ease: 'power1.out',
-          onComplete: function () {
-            loader.remove();
+    if (!animOn) {
+      if (intro) intro.remove();
+    } else {
+      var introChars = splitChars(document.getElementById('intro-word'));
+      gsap.set(introChars, { yPercent: 115 });
+      gsap.set('.intro__tag', { opacity: 0, y: 12 });
+
+      // Kamera uzaktan başlar; perde kalkarken sahneye dalış yapar
+      if (heroScene) heroScene.camera.position.z = 15;
+
+      var introTl = gsap.timeline({ paused: true });
+      introTl
+        .to(introChars, { yPercent: 0, duration: 0.9, ease: 'expo.out', stagger: 0.05 }, 0.1)
+        .to('.intro__tag', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.55)
+        .to('#intro-line', { scaleX: 1, duration: 1.0, ease: 'power2.inOut' }, 0.35)
+        .to('.intro__inner', { opacity: 0, y: -28, duration: 0.35, ease: 'power1.in' }, '+=0.2')
+        .to(intro, {
+          yPercent: -100,
+          borderBottomLeftRadius: '120px',
+          borderBottomRightRadius: '120px',
+          duration: 0.9,
+          ease: 'expo.inOut',
+          onStart: function () {
+            if (heroScene) {
+              gsap.to(heroScene.camera.position, { z: 9, duration: 1.8, ease: 'expo.out' });
+            }
             if (heroIntro) heroIntro();
-          }
-        });
-      } else {
-        loader.remove();
-      }
-    }
+          },
+          onComplete: function () { intro.remove(); }
+        }, '<0.15');
 
-    window.addEventListener('load', hideLoader);
-    setTimeout(hideLoader, 1000);
+      var introStarted = false;
+      var startIntro = function () {
+        if (introStarted) return;
+        introStarted = true;
+        introTl.play();
+      };
+      // Fraunces yüklenince başla; font gecikirse en geç 900ms'de başla
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(startIntro);
+      setTimeout(startIntro, 900);
+    }
   })();
   </script>
 </body>
