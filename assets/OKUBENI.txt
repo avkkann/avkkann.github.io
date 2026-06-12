@@ -1,0 +1,10 @@
+Bu klasöre uygulamanın gerçek ekran görüntülerini ekleyin:
+
+  app-screen-1.webp  → Ürün arama ekranı
+  app-screen-2.webp  → Fiyat karşılaştırma ekranı
+  app-screen-3.webp  → Optimal alışveriş listesi ekranı
+
+Önerilen boyut: 280x592 (9:19 oran), webp formatı.
+Dosyalar eklendiğinde landing page'deki telefon mockup'ları
+otomatik olarak gerçek ekran görüntülerini gösterir.
+Eklenene kadar CSS ile çizilmiş arayüz iskeletleri görünür.

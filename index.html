@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="tr" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pazar — Türkiye'nin Akıllı Pazar Rehberi</title>
+  <meta name="description" content="Hal toptancı fiyatları ve market fiyatlarını karşılaştırın. 14.000+ ürün, 8 kategori, optimal alışveriş listesi.">
+  <meta name="theme-color" content="#0F5132">
+  <link rel="canonical" href="https://avkkann.github.io/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pazar — Türkiye'nin Akıllı Pazar Rehberi">
+  <meta property="og:description" content="Hal toptancı fiyatları ve market fiyatlarını karşılaştırın. 14.000+ ürün, 8 kategori, optimal alışveriş listesi.">
+  <meta property="og:url" content="https://avkkann.github.io/">
+  <meta property="og:image" content="https://avkkann.github.io/pazar-app/static/icon-512.png">
+  <meta property="og:locale" content="tr_TR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pazar — Türkiye'nin Akıllı Pazar Rehberi">
+  <meta name="twitter:description" content="Hal toptancı fiyatları ve market fiyatlarını karşılaştırın. 14.000+ ürün, 8 kategori, optimal alışveriş listesi.">
+  <meta name="twitter:image" content="https://avkkann.github.io/pazar-app/static/icon-512.png">
+
+  <link rel="icon" href="https://avkkann.github.io/pazar-app/static/icon-192.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Pazar",
+    "url": "https://avkkann.github.io/pazar-app",
+    "description": "Hal toptancı fiyatları ve market fiyatlarını karşılaştırın. 14.000+ ürün, 8 kategori, optimal alışveriş listesi.",
+    "applicationCategory": "ShoppingApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "tr",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TRY" }
+  }
+  </script>
+
+  <style>
+    /* ============================================================
+       RESET + DEĞİŞKENLER
+       ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #0F5132;
+      --primary-light: #1D9E75;
+      --accent: #D97606;
+      --bg: #F8F9FA;
+      --text: #1a1a1a;
+      --text-light: #666;
+      --white: #fff;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --font-display: "Fraunces", Georgia, serif;
+      --font-body: "Inter", system-ui, -apple-system, sans-serif;
+      --nav-h: 80px;
+      --nav-h-small: 60px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--nav-h) + 16px);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    img, svg, canvas { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul, ol { list-style: none; }
+    button { font: inherit; border: 0; background: none; cursor: pointer; }
+
+    ::selection { background: var(--primary-light); color: var(--white); }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+    .container { width: min(1140px, 92%); margin-inline: auto; }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+    }
+
+    .skip-link {
+      position: fixed; top: -60px; left: 16px; z-index: 10000;
+      background: var(--primary); color: var(--white);
+      padding: 10px 18px; border-radius: 0 0 10px 10px;
+      font-weight: 600; font-size: 14px;
+      transition: top 0.3s var(--ease-out-expo);
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ============================================================
+       BUTONLAR
+       ============================================================ */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--accent); color: var(--white);
+      padding: 16px 32px; border-radius: 12px;
+      font-family: var(--font-body); font-weight: 600; font-size: 16px;
+      transition: transform 0.35s var(--ease-out-expo), box-shadow 0.35s var(--ease-out-expo);
+      will-change: transform;
+    }
+    .btn:hover, .btn:focus-visible {
+      transform: scale(1.05);
+      box-shadow: 0 12px 32px rgba(217, 118, 6, 0.35);
+    }
+
+    .btn--ghost {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(8px);
+    }
+    .btn--ghost:hover, .btn--ghost:focus-visible {
+      box-shadow: 0 12px 32px rgba(15, 81, 50, 0.3);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn--small { padding: 10px 22px; font-size: 14px; border-radius: 10px; }
+
+    .btn--xl {
+      padding: 20px 48px; font-size: 18px; border-radius: 16px;
+      animation: cta-pulse 2s ease-in-out infinite;
+    }
+    .btn--xl:hover, .btn--xl:focus-visible {
+      animation-play-state: paused;
+      transform: scale(1.08);
+      box-shadow: 0 0 40px rgba(217, 118, 6, 0.4);
+    }
+    @keyframes cta-pulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.02); }
+    }
+
+    /* ============================================================
+       LOADER
+       ============================================================ */
+    .loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .no-js .loader { display: none; }
+    .loader__dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--primary);
+      animation: loader-pulse 0.9s ease-in-out infinite;
+    }
+    .loader__dot:nth-child(2) { animation-delay: 0.15s; background: var(--primary-light); }
+    .loader__dot:nth-child(3) { animation-delay: 0.3s; background: var(--accent); }
+    @keyframes loader-pulse {
+      0%, 100% { transform: scale(0.6); opacity: 0.4; }
+      50%      { transform: scale(1); opacity: 1; }
+    }
+
+    /* ============================================================
+       NAVİGASYON
+       ============================================================ */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      --nav-ink: var(--white);
+      transition: background-color 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+    }
+    .no-js .site-header {
+      --nav-ink: var(--text);
+      background: rgba(255, 255, 255, 0.92);
+    }
+    .site-header.scrolled {
+      --nav-ink: var(--text);
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.06);
+    }
+
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      height: var(--nav-h);
+      transition: height 0.4s var(--ease-out-expo);
+    }
+    .site-header.scrolled .nav { height: var(--nav-h-small); }
+
+    .nav__logo {
+      font-family: var(--font-display); font-weight: 600; font-size: 26px;
+      color: var(--nav-ink); letter-spacing: -0.01em;
+      transition: color 0.3s ease;
+      z-index: 120; position: relative;
+    }
+
+    .nav__menu {
+      display: flex; align-items: center; gap: 36px;
+    }
+    .nav__link {
+      font-size: 15px; font-weight: 500; color: var(--nav-ink);
+      transition: color 0.3s ease, opacity 0.3s ease;
+      opacity: 0.92;
+    }
+    .nav__link:hover { opacity: 1; color: var(--accent); }
+
+    .nav__toggle { position: absolute; opacity: 0; pointer-events: none; }
+
+    .nav__burger {
+      display: none;
+      width: 44px; height: 44px;
+      flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      cursor: pointer; z-index: 120; position: relative;
+      border-radius: 10px;
+    }
+    .nav__burger span {
+      display: block; width: 22px; height: 2px; border-radius: 2px;
+      background: var(--nav-ink);
+      transition: transform 0.35s var(--ease-out-expo), opacity 0.25s ease, background-color 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .nav__burger { display: flex; }
+      .nav__menu {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 110;
+        flex-direction: column; align-items: flex-start; gap: 8px;
+        padding: 96px 28px 36px;
+        background: var(--white);
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+        border-radius: 0 0 24px 24px;
+        transform: translateY(-110%);
+        transition: transform 0.45s var(--ease-out-expo);
+      }
+      .nav__menu .nav__link {
+        color: var(--text); font-size: 18px; font-weight: 600;
+        padding: 10px 0; opacity: 1;
+      }
+      .nav__menu .btn { margin-top: 12px; }
+      .nav__toggle:checked ~ .nav__menu { transform: translateY(0); }
+      .nav__toggle:checked ~ .nav__burger span { background: var(--text); }
+      .nav__toggle:checked ~ .nav__burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .nav__toggle:checked ~ .nav__burger span:nth-child(2) { opacity: 0; }
+      .nav__toggle:checked ~ .nav__burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .nav__toggle:checked ~ .nav__logo { color: var(--text); }
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    #hero-canvas {
+      position: fixed; inset: 0; z-index: -1;
+      width: 100%; height: 100vh; height: 100svh;
+      pointer-events: none;
+      background: linear-gradient(135deg, #0F5132 0%, #15724a 55%, #1D9E75 100%);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh; min-height: 100svh;
+      display: grid; place-items: center;
+      text-align: center; color: var(--white);
+      padding: calc(var(--nav-h) + 32px) 0 64px;
+      overflow: hidden;
+    }
+    /* Okunabilirlik: metnin arkasına hafif koyu vinyet */
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 70% 55% at 50% 48%, rgba(10, 61, 37, 0.38), transparent 70%);
+      pointer-events: none;
+    }
+    .hero__content { position: relative; z-index: 1; }
+
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+      padding: 8px 18px; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      margin-bottom: 28px;
+    }
+
+    .hero__title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(64px, 14vw, 148px);
+      line-height: 1; letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+    .hero__title .char { display: inline-block; will-change: transform, opacity; }
+
+    .hero__subtitle {
+      font-weight: 400;
+      font-size: clamp(17px, 2.4vw, 23px);
+      opacity: 0.92; letter-spacing: 0.01em;
+      margin-bottom: 40px;
+    }
+    .hero__subtitle .char { display: inline-block; }
+
+    .hero__actions {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+
+    .hero__hint {
+      position: absolute; bottom: 28px; left: 50%;
+      transform: translateX(-50%); z-index: 1;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+      opacity: 0.7;
+    }
+    .hero__hint svg { animation: hint-bounce 2s ease-in-out infinite; }
+    @keyframes hint-bounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(7px); }
+    }
+
+    /* ============================================================
+       ORTAK SECTION BAŞLIKLARI
+       ============================================================ */
+    .section { padding: clamp(80px, 12vw, 120px) 0; }
+
+    .section-head { text-align: center; max-width: 640px; margin: 0 auto clamp(48px, 7vw, 72px); }
+    .section-head__eyebrow {
+      display: inline-block;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px;
+    }
+    .section-head__title {
+      font-family: var(--font-display); font-weight: 600;
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.12; letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .section-head__sub { font-size: 17px; color: var(--text-light); line-height: 1.6; }
+
+    /* ============================================================
+       ÖZELLİKLER — 3D KART GRID
+       ============================================================ */
+    #features { background: var(--bg); }
+
+    .features__grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+      perspective: 1200px;
+    }
+    @media (max-width: 900px) { .features__grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .features__grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--white); border-radius: 20px; padding: 40px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+      transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+      transform-style: preserve-3d;
+    }
+    .card:hover {
+      transform: translateY(-8px) rotateX(5deg) rotateY(-5deg);
+      box-shadow: 0 28px 56px rgba(15, 81, 50, 0.14);
+    }
+
+    .card__icon {
+      width: 56px; height: 56px; border-radius: 16px;
+      display: grid; place-items: center;
+      background: rgba(15, 81, 50, 0.08);
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+    .card:nth-child(even) .card__icon { background: rgba(217, 118, 6, 0.1); color: var(--accent); }
+
+    .card__title {
+      font-family: var(--font-display); font-weight: 600; font-size: 22px;
+      letter-spacing: -0.01em; margin-bottom: 10px;
+    }
+    .card__desc { font-size: 15px; color: var(--text-light); line-height: 1.65; }
+
+    /* ============================================================
+       NASIL ÇALIŞIR — PINNED SHOWCASE
+       ============================================================ */
+    #how-it-works { background: var(--primary); color: var(--white); }
+
+    /* Animasyon modu: 400vh scroll alanı + sticky sahne */
+    .has-anim #how-it-works { height: 400vh; }
+    .has-anim .hiw-stage {
+      position: sticky; top: 0; height: 100vh; height: 100svh;
+      display: flex; align-items: center;
+      overflow: hidden; padding: 0;
+    }
+    .hiw-stage { padding: clamp(80px, 12vw, 120px) 0; }
+
+    .hiw-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: clamp(40px, 6vw, 96px);
+    }
+    @media (max-width: 820px) {
+      .hiw-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .hiw-visual { order: -1; }
+    }
+
+    .hiw-eyebrow {
+      display: inline-block;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65); margin-bottom: 28px;
+    }
+
+    /* Adımlar: animasyon modunda üst üste (grid stack), statik modda alt alta */
+    .has-anim .hiw-steps { display: grid; min-height: 280px; align-items: center; }
+    .has-anim .hiw-step { grid-area: 1 / 1; }
+    html:not(.has-anim) .hiw-step + .hiw-step { margin-top: 48px; }
+
+    .hiw-step__num {
+      display: block;
+      font-family: var(--font-display); font-weight: 400; font-size: 18px;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .hiw-step__title {
+      font-family: var(--font-display); font-weight: 600;
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: -0.02em; margin-bottom: 14px;
+    }
+    .hiw-step__desc {
+      font-size: 18px; line-height: 1.65;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 400px;
+    }
+    @media (max-width: 820px) { .hiw-step__desc { margin-inline: auto; } }
+
+    .hiw-dots { display: flex; gap: 10px; margin-top: 40px; }
+    @media (max-width: 820px) { .hiw-dots { justify-content: center; } }
+    html:not(.has-anim) .hiw-dots { display: none; }
+    .hiw-dot {
+      display: block; width: 8px; height: 8px; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .hiw-dot.is-active { width: 32px; background: var(--accent); }
+
+    /* Telefon mockup */
+    .hiw-visual {
+      display: flex; justify-content: center;
+      perspective: 1200px;
+    }
+    .phone {
+      position: relative;
+      width: min(300px, 72vw);
+      aspect-ratio: 9 / 19;
+      border-radius: 40px;
+      border: 12px solid #2e2e2e;
+      background: #111;
+      box-shadow:
+        0 50px 100px rgba(0, 0, 0, 0.45),
+        0 18px 40px rgba(0, 0, 0, 0.3),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.04);
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .phone__notch {
+      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+      width: 38%; height: 18px; border-radius: 999px;
+      background: #1c1c1c; z-index: 3;
+    }
+    .phone__screens {
+      position: absolute; inset: 0;
+      border-radius: 28px; overflow: hidden;
+      background: #0c2c1d;
+    }
+    .phone-screen { position: absolute; inset: 0; }
+    .phone-screen + .phone-screen { opacity: 0; }
+    .phone-screen img {
+      position: absolute; inset: 0; z-index: 2;
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .phone-screen img.img-missing { display: none; }
+
+    /* Ekran görüntüsü gelene kadar: CSS ile çizilmiş uygulama iskeleti */
+    .mock {
+      position: absolute; inset: 0; z-index: 1;
+      display: flex; flex-direction: column; gap: 10px;
+      background: #F1F4F2; padding: 40px 12px 12px;
+      font-size: 12px;
+    }
+    .mock__bar {
+      flex: 0 0 42px; border-radius: 12px;
+      background: var(--primary); color: var(--white);
+      font-family: var(--font-display); font-weight: 600; font-size: 15px;
+      display: flex; align-items: center; padding-inline: 14px;
+    }
+    .mock__search {
+      flex: 0 0 36px; border-radius: 999px;
+      background: var(--white); color: #999;
+      display: flex; align-items: center; gap: 8px; padding-inline: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .mock__grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .mock__tile {
+      border-radius: 12px; background: var(--white);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      position: relative; overflow: hidden;
+    }
+    .mock__tile::before {
+      content: ""; position: absolute; inset: 8px 8px 40%;
+      border-radius: 8px; background: #E6EEE9;
+    }
+    .mock__tile::after {
+      content: ""; position: absolute; left: 8px; right: 30%; bottom: 12px;
+      height: 8px; border-radius: 4px; background: #DCE5E0;
+    }
+    .mock__row {
+      flex: 0 0 44px; border-radius: 12px; background: var(--white);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      display: flex; align-items: center; justify-content: space-between;
+      padding-inline: 14px; color: var(--text-light); font-weight: 500;
+    }
+    .mock__row strong { color: var(--text); font-weight: 600; }
+    .mock__row--best { border: 2px solid var(--primary-light); color: var(--primary); }
+    .mock__row--best strong { color: var(--primary); }
+    .mock__check {
+      width: 18px; height: 18px; border-radius: 6px;
+      background: var(--primary-light); flex: 0 0 auto; margin-right: 10px;
+      position: relative;
+    }
+    .mock__check::after {
+      content: ""; position: absolute; left: 5px; top: 2px;
+      width: 5px; height: 9px;
+      border: solid var(--white); border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .mock__row--list { justify-content: flex-start; }
+    .mock__total {
+      margin-top: auto; flex: 0 0 54px; border-radius: 14px;
+      background: var(--accent); color: var(--white);
+      font-weight: 600; font-size: 13px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .mock__spacer { flex: 1; }
+
+    /* ============================================================
+       İSTATİSTİKLER
+       ============================================================ */
+    #stats { background: var(--bg); position: relative; overflow: hidden; }
+    #stats-canvas {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; opacity: 0.3;
+    }
+    .stats__content { position: relative; z-index: 1; }
+
+    .stats__grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    @media (max-width: 900px) { .stats__grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .stats__grid { grid-template-columns: 1fr; } }
+
+    .stat-card {
+      background: var(--white); border-radius: 24px; padding: 48px 32px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+      transition: transform 0.35s var(--ease-out-expo), box-shadow 0.35s var(--ease-out-expo);
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(15, 81, 50, 0.12);
+    }
+    .stat-card__icon { font-size: 30px; margin-bottom: 14px; }
+    .stat-card__num {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(44px, 5vw, 64px);
+      line-height: 1.05; letter-spacing: -0.02em;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 8px;
+    }
+    .stat-card__label { font-weight: 500; font-size: 16px; color: var(--text-light); }
+
+    /* ============================================================
+       KATEGORİLER
+       ============================================================ */
+    #categories { background: var(--white); }
+
+    .cats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+      perspective: 1000px;
+    }
+    @media (max-width: 900px) and (min-width: 769px) { .cats { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) {
+      .cats {
+        display: flex; overflow-x: auto; gap: 16px;
+        scroll-snap-type: x mandatory;
+        padding: 8px 4% 24px;
+        margin-inline: -4%;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .cats::-webkit-scrollbar { display: none; }
+      .cat { flex: 0 0 64%; scroll-snap-align: center; }
+    }
+
+    .cat {
+      background: var(--bg); border-radius: 16px; padding: 32px;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      will-change: transform;
+    }
+    .cat:hover { background: var(--primary-light); color: var(--white); transform: translateY(-4px); }
+    .cat__emoji { font-size: 48px; line-height: 1; display: block; margin-bottom: 18px; }
+    .cat__name {
+      font-family: var(--font-display); font-weight: 600; font-size: 20px;
+      letter-spacing: -0.01em; margin-bottom: 6px;
+    }
+    .cat__count { font-size: 14px; color: var(--text-light); transition: color 0.3s ease; }
+    .cat:hover .cat__count { color: rgba(255, 255, 255, 0.85); }
+
+    /* ============================================================
+       CTA
+       ============================================================ */
+    #cta {
+      padding: clamp(110px, 16vw, 160px) 0;
+      background: linear-gradient(160deg, var(--primary) 0%, #0a3d25 100%);
+      color: var(--white); text-align: center;
+      overflow: hidden;
+    }
+    .cta__title {
+      font-family: var(--font-display); font-weight: 600;
+      font-size: clamp(36px, 6.5vw, 56px);
+      line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+    .cta__sub {
+      font-size: clamp(16px, 2.4vw, 20px);
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 560px; margin: 0 auto 44px; line-height: 1.6;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .site-footer {
+      background: #0a0a0a; color: rgba(255, 255, 255, 0.6);
+      padding: 60px 0; font-size: 14px;
+    }
+    .footer__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+    }
+    @media (max-width: 600px) {
+      .footer__inner { flex-direction: column; text-align: center; }
+    }
+    .footer__logo {
+      font-family: var(--font-display); font-weight: 600; font-size: 24px;
+      color: var(--white);
+    }
+    .footer__link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .footer__link:hover { color: var(--primary-light); }
+
+    /* ============================================================
+       AZALTILMIŞ HAREKET
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+      .card:hover, .stat-card:hover, .cat:hover, .btn:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">İçeriğe geç</a>
+
+  <!-- Yükleme ekranı -->
+  <div class="loader" id="loader" role="status" aria-label="Yükleniyor">
+    <span class="loader__dot"></span>
+    <span class="loader__dot"></span>
+    <span class="loader__dot"></span>
+  </div>
+
+  <!-- Hero arka planı: 3D sahne -->
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+  <!-- ============ NAVİGASYON ============ -->
+  <header class="site-header" id="site-header">
+    <div class="container nav">
+      <input type="checkbox" id="nav-toggle" class="nav__toggle" aria-label="Menüyü aç/kapat">
+      <a class="nav__logo" href="#hero" aria-label="Pazar — ana sayfa">Pazar</a>
+      <nav class="nav__menu" id="nav-menu" aria-label="Ana menü">
+        <a class="nav__link" href="#features">Özellikler</a>
+        <a class="nav__link" href="#how-it-works">Nasıl Çalışır</a>
+        <a class="nav__link" href="#stats">İstatistikler</a>
+        <a class="btn btn--small" href="https://avkkann.github.io/pazar-app">Ücretsiz Başla</a>
+      </nav>
+      <label class="nav__burger" for="nav-toggle" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </label>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero" aria-label="Tanıtım">
+      <div class="hero__content container">
+        <p class="hero__badge">🇹🇷 Hal + market fiyatları tek ekranda</p>
+        <h1 class="hero__title" id="hero-title">Pazar</h1>
+        <p class="hero__subtitle" id="hero-subtitle">Türkiye'nin Akıllı Pazar Rehberi</p>
+        <div class="hero__actions">
+          <a class="btn" href="https://avkkann.github.io/pazar-app">Ücretsiz Başla</a>
+          <a class="btn btn--ghost" href="#how-it-works">Nasıl Çalışır?</a>
+        </div>
+      </div>
+      <div class="hero__hint" aria-hidden="true">
+        <span>Keşfet</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </section>
+
+    <!-- ============ ÖZELLİKLER ============ -->
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-head__eyebrow">Özellikler</span>
+          <h2 class="section-head__title" id="features-title">Neden Pazar?</h2>
+          <p class="section-head__sub">14.000+ ürün, 8 kategori, anlık fiyat karşılaştırma</p>
+        </div>
+
+        <div class="features__grid">
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l1.4-5h13.2L20 9"/><path d="M4 9h16v2a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 15 11a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 10 11a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 5 11"/><path d="M5.5 13.4V20h13v-6.6"/><path d="M9.5 20v-5h5v5"/></svg>
+            </div>
+            <h3 class="card__title">Hal Fiyatları</h3>
+            <p class="card__desc">Türkiye geneli hal toptancı fiyatları anlık</p>
+          </article>
+
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.6"/><circle cx="17" cy="20" r="1.6"/><path d="M3 4h2.2L7.6 15h10.6L21 7.5H6"/></svg>
+            </div>
+            <h3 class="card__title">Market Karşılaştırma</h3>
+            <p class="card__desc">Migros, Carrefour, BİM, A101, Şok ve daha fazlası</p>
+          </article>
+
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+            </div>
+            <h3 class="card__title">Optimal Alışveriş</h3>
+            <p class="card__desc">En ucuz kombinasyonu otomatik hesaplar</p>
+          </article>
+
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
+            </div>
+            <h3 class="card__title">Fırsatlar</h3>
+            <p class="card__desc">En ucuz ürünler, hal fırsatları, tasarruf önerileri</p>
+          </article>
+
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.4 10.7l7.2-4.2M8.4 13.3l7.2 4.2"/></svg>
+            </div>
+            <h3 class="card__title">Liste Paylaşma</h3>
+            <p class="card__desc">WhatsApp ile listenizi paylaşın</p>
+          </article>
+
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></svg>
+            </div>
+            <h3 class="card__title">PWA Desteği</h3>
+            <p class="card__desc">Telefonunuza kurun, internet olmadan da çalışsın</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NASIL ÇALIŞIR ============ -->
+    <section id="how-it-works" aria-labelledby="hiw-title">
+      <div class="hiw-stage">
+        <div class="container hiw-inner">
+          <div class="hiw-text">
+            <h2 class="hiw-eyebrow" id="hiw-title">Nasıl Çalışır</h2>
+
+            <div class="hiw-steps">
+              <div class="hiw-step" data-step="1">
+                <span class="hiw-step__num" aria-hidden="true">01</span>
+                <h3 class="hiw-step__title">Ürün Ara</h3>
+                <p class="hiw-step__desc">14.000+ ürün arasından istediğinizi bulun</p>
+              </div>
+              <div class="hiw-step" data-step="2">
+                <span class="hiw-step__num" aria-hidden="true">02</span>
+                <h3 class="hiw-step__title">Fiyatları Karşılaştır</h3>
+                <p class="hiw-step__desc">Marketler ve hal fiyatlarını yan yana görün</p>
+              </div>
+              <div class="hiw-step" data-step="3">
+                <span class="hiw-step__num" aria-hidden="true">03</span>
+                <h3 class="hiw-step__title">Optimal Listeni Oluştur</h3>
+                <p class="hiw-step__desc">En ucuz kombinasyon otomatik hesaplanır</p>
+              </div>
+            </div>
+
+            <div class="hiw-dots" aria-hidden="true">
+              <span class="hiw-dot is-active"></span>
+              <span class="hiw-dot"></span>
+              <span class="hiw-dot"></span>
+            </div>
+          </div>
+
+          <div class="hiw-visual">
+            <div class="phone" id="phone">
+              <div class="phone__screens">
+
+                <div class="phone-screen" data-screen="1">
+                  <div class="mock" aria-hidden="true">
+                    <div class="mock__bar">Pazar</div>
+                    <div class="mock__search">🔍 Ürün ara…</div>
+                    <div class="mock__grid">
+                      <div class="mock__tile"></div><div class="mock__tile"></div>
+                      <div class="mock__tile"></div><div class="mock__tile"></div>
+                      <div class="mock__tile"></div><div class="mock__tile"></div>
+                    </div>
+                  </div>
+                  <img src="assets/app-screen-1.webp" alt="Pazar uygulaması ekran görüntüsü: ürün arama" loading="lazy" decoding="async" width="280" height="592">
+                </div>
+
+                <div class="phone-screen" data-screen="2">
+                  <div class="mock" aria-hidden="true">
+                    <div class="mock__bar">Pazar</div>
+                    <div class="mock__row"><span>🍅 Domates · 1 kg</span></div>
+                    <div class="mock__row mock__row--best"><span>Hal</span><strong>24,90 ₺</strong></div>
+                    <div class="mock__row"><span>Migros</span><strong>49,50 ₺</strong></div>
+                    <div class="mock__row"><span>A101</span><strong>44,75 ₺</strong></div>
+                    <div class="mock__row"><span>BİM</span><strong>42,90 ₺</strong></div>
+                    <div class="mock__spacer"></div>
+                  </div>
+                  <img src="assets/app-screen-2.webp" alt="Pazar uygulaması ekran görüntüsü: fiyat karşılaştırma" loading="lazy" decoding="async" width="280" height="592">
+                </div>
+
+                <div class="phone-screen" data-screen="3">
+                  <div class="mock" aria-hidden="true">
+                    <div class="mock__bar">Pazar</div>
+                    <div class="mock__row mock__row--list"><span class="mock__check"></span><span>Domates · Hal</span></div>
+                    <div class="mock__row mock__row--list"><span class="mock__check"></span><span>Süt · BİM</span></div>
+                    <div class="mock__row mock__row--list"><span class="mock__check"></span><span>Peynir · A101</span></div>
+                    <div class="mock__row mock__row--list"><span class="mock__check"></span><span>Zeytin · Migros</span></div>
+                    <div class="mock__total">Optimal Liste · 487 ₺ 🎉</div>
+                  </div>
+                  <img src="assets/app-screen-3.webp" alt="Pazar uygulaması ekran görüntüsü: optimal alışveriş listesi" loading="lazy" decoding="async" width="280" height="592">
+                </div>
+
+              </div>
+              <div class="phone__notch" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ İSTATİSTİKLER ============ -->
+    <section class="section" id="stats" aria-labelledby="stats-title">
+      <canvas id="stats-canvas" aria-hidden="true"></canvas>
+      <div class="container stats__content">
+        <div class="section-head">
+          <span class="section-head__eyebrow">İstatistikler</span>
+          <h2 class="section-head__title" id="stats-title">Rakamlarla Pazar</h2>
+        </div>
+
+        <div class="stats__grid">
+          <div class="stat-card">
+            <div class="stat-card__icon" aria-hidden="true">📦</div>
+            <div class="stat-card__num" data-count="14269">14.269</div>
+            <div class="stat-card__label">Toplam Ürün</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon" aria-hidden="true">🗂️</div>
+            <div class="stat-card__num" data-count="8">8</div>
+            <div class="stat-card__label">Kategori</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon" aria-hidden="true">🏷️</div>
+            <div class="stat-card__num" data-count="14000" data-suffix="+">14.000+</div>
+            <div class="stat-card__label">Market Fiyatı</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon" aria-hidden="true">🖼️</div>
+            <div class="stat-card__num" data-count="85" data-prefix="%">%85</div>
+            <div class="stat-card__label">Resim Kapsama</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ KATEGORİLER ============ -->
+    <section class="section" id="categories" aria-labelledby="categories-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-head__eyebrow">Kategoriler</span>
+          <h2 class="section-head__title" id="categories-title">Tüm Kategoriler</h2>
+          <p class="section-head__sub">İhtiyacınız olan her şey, sekiz kategoride düzenli</p>
+        </div>
+
+        <div class="cats" id="cats">
+          <div class="cat"><span class="cat__emoji" aria-hidden="true">🍎</span><h3 class="cat__name">Meyve &amp; Sebze</h3><p class="cat__count">1.900+ ürün</p></div>
+          <div class="cat"><span class="cat__emoji" aria-hidden="true">🥩</span><h3 class="cat__name">Et</h3><p class="cat__count">1.200+ ürün</p></div>
+          <div class="cat"><span class="cat__emoji" aria-hidden="true">🧀</span><h3 class="cat__name">Süt &amp; Kahvaltı</h3><p class="cat__count">2.100+ ürün</p></div>
+          <div class="cat"><span class="cat__emoji" aria-hidden="true">🥫</span><h3 class="cat__name">Gıda</h3><p class="cat__count">3.200+ ürün</p></div>
+          <div class="cat"><span class="cat__emoji" aria-hidden="true">🥤</span><h3 class="cat__name">İçecek</h3><p class="cat__count">1.600+ ürün</p></div>
+          <div class="cat"><span class="cat__emoji" aria-hidden="true">🧴</span><h3 class="cat__name">Temizlik</h3><p class="cat__count">1.800+ ürün</p></div>
+          <div class="cat"><span class="cat__emoji" aria-hidden="true">🍫</span><h3 class="cat__name">Atıştırmalık</h3><p class="cat__count">1.400+ ürün</p></div>
+          <div class="cat"><span class="cat__emoji" aria-hidden="true">🧊</span><h3 class="cat__name">Dondurulmuş</h3><p class="cat__count">900+ ürün</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section id="cta" aria-labelledby="cta-title">
+      <div class="container">
+        <h2 class="cta__title" id="cta-title">Alışverişinizi Akıllıca Yapın</h2>
+        <p class="cta__sub">Türkiye'nin en kapsamlı pazar fiyat karşılaştırma uygulaması</p>
+        <a class="btn btn--xl" href="https://avkkann.github.io/pazar-app">Hemen Başla</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">Pazar</span>
+      <p>© 2026 Pazar. Tüm hakları saklıdır.</p>
+      <a class="footer__link" href="https://github.com/avkkann/pazar-app" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </footer>
+
+  <!-- ============ KÜTÜPHANELER ============ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hasGsap = !!(window.gsap && window.ScrollTrigger);
+    var animOn = hasGsap && !reducedMotion;
+
+    if (animOn) {
+      gsap.registerPlugin(ScrollTrigger);
+      document.documentElement.classList.add('has-anim');
+    }
+
+    /* ------------------------------------------------------------
+       LENIS SMOOTH SCROLL
+       ------------------------------------------------------------ */
+    var lenis = null;
+    if (window.Lenis && !reducedMotion) {
+      lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+      if (animOn) {
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+      } else {
+        var lenisRaf = function (time) { lenis.raf(time); requestAnimationFrame(lenisRaf); };
+        requestAnimationFrame(lenisRaf);
+      }
+    }
+
+    /* ------------------------------------------------------------
+       NAV: scroll'da küçülme + anchor scroll + mobil menü kapatma
+       ------------------------------------------------------------ */
+    var header = document.getElementById('site-header');
+    var navToggle = document.getElementById('nav-toggle');
+
+    function updateHeader(scrollY) {
+      header.classList.toggle('scrolled', scrollY > 10);
+    }
+    if (animOn) {
+      ScrollTrigger.create({
+        start: 0,
+        end: 'max',
+        onUpdate: function (self) { updateHeader(self.scroll()); }
+      });
+    } else {
+      window.addEventListener('scroll', function () { updateHeader(window.scrollY); }, { passive: true });
+    }
+    updateHeader(window.scrollY);
+
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var hash = link.getAttribute('href');
+        if (hash.length < 2) return;
+        var target = document.querySelector(hash);
+        if (!target) return;
+        e.preventDefault();
+        if (navToggle) navToggle.checked = false;
+        if (lenis) {
+          lenis.scrollTo(target, { offset: -72 });
+        } else {
+          target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+        }
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navToggle) navToggle.checked = false;
+    });
+
+    /* ------------------------------------------------------------
+       EKSİK EKRAN GÖRÜNTÜLERİ: yüklenemeyen img gizlenir,
+       arkadaki CSS iskeleti görünür kalır
+       ------------------------------------------------------------ */
+    document.querySelectorAll('.phone-screen img').forEach(function (img) {
+      img.addEventListener('error', function () { img.classList.add('img-missing'); });
+      if (img.complete && img.naturalWidth === 0) img.classList.add('img-missing');
+    });
+
+    /* ------------------------------------------------------------
+       THREE.JS — HERO SAHNESİ
+       cam küreler + partikül alanı
+       ------------------------------------------------------------ */
+    function webglOk() {
+      try {
+        var c = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+      } catch (e) { return false; }
+    }
+
+    var heroScene = null;
+    if (window.THREE && webglOk()) {
+      heroScene = (function () {
+        var canvas = document.getElementById('hero-canvas');
+        var renderer;
+        try {
+          renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+        } catch (e) { return null; }
+
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 9;
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+        var keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
+        keyLight.position.set(4, 6, 8);
+        scene.add(keyLight);
+        var warmLight = new THREE.PointLight(0xD97606, 0.7, 40);
+        warmLight.position.set(-6, -3, 4);
+        scene.add(warmLight);
+
+        // Cam küreler (low-poly, paylaşılan geometri)
+        var sphereGeo = new THREE.SphereGeometry(1, 32, 32);
+        var glassMat = new THREE.MeshPhysicalMaterial({
+          color: 0xbff5dd,
+          transmission: 0.55,
+          roughness: 0.1,
+          thickness: 0.5,
+          metalness: 0,
+          transparent: true,
+          opacity: 0.22,
+          depthWrite: false
+        });
+
+        var sphereDefs = [
+          [-4.6,  1.7, -3.0, 1.6],
+          [ 4.7, -1.3, -2.2, 2.1],
+          [ 3.4,  2.5, -4.5, 1.1],
+          [-3.2, -2.3, -2.6, 1.3],
+          [ 0.6,  3.2, -6.0, 1.9]
+        ];
+        var spheres = sphereDefs.map(function (d, i) {
+          var mesh = new THREE.Mesh(sphereGeo, glassMat);
+          mesh.position.set(d[0], d[1], d[2]);
+          mesh.scale.setScalar(d[3]);
+          mesh.userData = { baseY: d[1], speed: 0.3 + i * 0.12, phase: i * 1.7 };
+          scene.add(mesh);
+          return mesh;
+        });
+
+        // Partikül alanı: max 50 nokta, yeşil/turuncu
+        var COUNT = 50;
+        var positions = new Float32Array(COUNT * 3);
+        var colors = new Float32Array(COUNT * 3);
+        var green = new THREE.Color(0x7be8c0);
+        var orange = new THREE.Color(0xf2a35c);
+        for (var i = 0; i < COUNT; i++) {
+          positions[i * 3]     = (Math.random() - 0.5) * 17;
+          positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
+          positions[i * 3 + 2] = -2 - Math.random() * 6;
+          var c = Math.random() < 0.75 ? green : orange;
+          colors[i * 3] = c.r; colors[i * 3 + 1] = c.g; colors[i * 3 + 2] = c.b;
+        }
+        var particleGeo = new THREE.BufferGeometry();
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        var particleMat = new THREE.PointsMaterial({
+          size: 0.09,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.85,
+          depthWrite: false,
+          sizeAttenuation: true
+        });
+        var particles = new THREE.Points(particleGeo, particleMat);
+        scene.add(particles);
+
+        var clock = new THREE.Clock();
+        var rafId = null;
+        var visible = true;
+
+        function render() {
+          var dt = clock.getDelta();
+          var t = clock.elapsedTime;
+          spheres.forEach(function (s) {
+            s.rotation.x += dt * 0.15;
+            s.rotation.y += dt * 0.2;
+            s.position.y = s.userData.baseY + Math.sin(t * s.userData.speed + s.userData.phase) * 0.4;
+          });
+          particles.rotation.y += dt * 0.02;
+          particles.position.y = Math.sin(t * 0.15) * 0.3;
+          renderer.render(scene, camera);
+        }
+        function loop() {
+          render();
+          rafId = requestAnimationFrame(loop);
+        }
+
+        if (reducedMotion) {
+          render(); // tek statik kare
+        } else {
+          rafId = requestAnimationFrame(loop);
+          // Hero görünür değilken render durdur
+          var heroEl = document.getElementById('hero');
+          if ('IntersectionObserver' in window && heroEl) {
+            new IntersectionObserver(function (entries) {
+              var inView = entries[0].isIntersecting;
+              if (inView && !visible) {
+                visible = true;
+                clock.getDelta();
+                rafId = requestAnimationFrame(loop);
+              } else if (!inView && visible) {
+                visible = false;
+                cancelAnimationFrame(rafId);
+              }
+            }, { threshold: 0 }).observe(heroEl);
+          }
+        }
+
+        window.addEventListener('resize', function () {
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+        });
+
+        return { render: render };
+      })();
+    }
+
+    /* ------------------------------------------------------------
+       THREE.JS — İSTATİSTİK PARTİKÜL ALANI (hafif, sadece görünürken)
+       ------------------------------------------------------------ */
+    if (window.THREE && webglOk() && !reducedMotion) {
+      (function () {
+        var canvas = document.getElementById('stats-canvas');
+        var section = document.getElementById('stats');
+        if (!canvas || !section) return;
+
+        var renderer;
+        try {
+          renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+        } catch (e) { return; }
+
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 50);
+        camera.position.z = 10;
+
+        var COUNT = 50;
+        var positions = new Float32Array(COUNT * 3);
+        for (var i = 0; i < COUNT; i++) {
+          positions[i * 3]     = (Math.random() - 0.5) * 24;
+          positions[i * 3 + 1] = (Math.random() - 0.5) * 12;
+          positions[i * 3 + 2] = -2 - Math.random() * 5;
+        }
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        var mat = new THREE.PointsMaterial({
+          color: 0x1d9e75,
+          size: 0.12,
+          transparent: true,
+          opacity: 0.9,
+          depthWrite: false
+        });
+        var points = new THREE.Points(geo, mat);
+        scene.add(points);
+
+        function size() {
+          var w = section.clientWidth || 1;
+          var h = section.clientHeight || 1;
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        }
+        size();
+        window.addEventListener('resize', size);
+
+        var clock = new THREE.Clock();
+        var rafId = null;
+        var running = false;
+
+        function loop() {
+          var dt = clock.getDelta();
+          points.rotation.y += dt * 0.04;
+          points.position.y = Math.sin(clock.elapsedTime * 0.2) * 0.5;
+          renderer.render(scene, camera);
+          rafId = requestAnimationFrame(loop);
+        }
+
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (entries) {
+            var inView = entries[0].isIntersecting;
+            if (inView && !running) {
+              running = true;
+              clock.getDelta();
+              rafId = requestAnimationFrame(loop);
+            } else if (!inView && running) {
+              running = false;
+              cancelAnimationFrame(rafId);
+            }
+          }, { threshold: 0 }).observe(section);
+        } else {
+          loop();
+        }
+      })();
+    }
+
+    /* ------------------------------------------------------------
+       METİN SPLIT (SplitText yerine hafif yerel çözüm)
+       ------------------------------------------------------------ */
+    function splitChars(el) {
+      if (!el) return [];
+      var text = el.textContent;
+      el.setAttribute('aria-label', text);
+      el.textContent = '';
+      var chars = [];
+      Array.prototype.forEach.call(text, function (ch) {
+        var span = document.createElement('span');
+        span.className = 'char';
+        span.setAttribute('aria-hidden', 'true');
+        span.textContent = ch === ' ' ? ' ' : ch;
+        el.appendChild(span);
+        chars.push(span);
+      });
+      return chars;
+    }
+
+    /* ------------------------------------------------------------
+       GSAP ANİMASYONLARI
+       ------------------------------------------------------------ */
+    var heroIntro = null;
+
+    if (animOn) {
+
+      /* --- Hero giriş (loader bitince oynar) --- */
+      var titleChars = splitChars(document.getElementById('hero-title'));
+      var subtitleChars = splitChars(document.getElementById('hero-subtitle'));
+
+      gsap.set(titleChars, { opacity: 0, y: 70, rotateX: -45 });
+      gsap.set(subtitleChars, { opacity: 0, y: 18 });
+      gsap.set('.hero__badge, .hero__actions > *, .hero__hint', { opacity: 0, y: 20 });
+
+      heroIntro = function () {
+        gsap.timeline({ defaults: { ease: 'expo.out' } })
+          .to(titleChars, { opacity: 1, y: 0, rotateX: 0, duration: 1.1, stagger: 0.04 }, 0.05)
+          .to(subtitleChars, { opacity: 1, y: 0, duration: 0.7, stagger: 0.02 }, 0.45)
+          .to('.hero__badge', { opacity: 1, y: 0, duration: 0.8 }, 0.3)
+          .to('.hero__actions > *', { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 0.85)
+          .to('.hero__hint', { opacity: 0.7, y: 0, duration: 0.8, clearProps: 'transform' }, 1.1);
+      };
+
+      /* --- Özellik kartları: staggered reveal --- */
+      gsap.from('.card', {
+        scrollTrigger: { trigger: '#features', start: 'top 80%', once: true },
+        opacity: 0,
+        y: 60,
+        duration: 1,
+        ease: 'expo.out',
+        stagger: 0.1,
+        clearProps: 'opacity,transform'
+      });
+
+      /* --- Nasıl Çalışır: pinned scrub timeline --- */
+      var steps = gsap.utils.toArray('.hiw-step');
+      var screens = gsap.utils.toArray('.phone-screen');
+      var dots = gsap.utils.toArray('.hiw-dot');
+      var dotOff = { width: 8, backgroundColor: 'rgba(255,255,255,0.3)' };
+      var dotOn = { width: 32, backgroundColor: '#D97606' };
+
+      gsap.set([steps[1], steps[2]], { autoAlpha: 0, y: 40 });
+      gsap.set([screens[1], screens[2]], { autoAlpha: 0 });
+
+      var hiwTl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: '#how-it-works',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1,
+          markers: false
+        }
+      });
+
+      // Telefon: tüm scroll boyunca rotateY -15° → 15°, translateZ 0 → 100px
+      hiwTl.fromTo('#phone',
+        { rotateY: -15, z: 0 },
+        { rotateY: 15, z: 100, duration: 3 }, 0);
+
+      // Geçiş 1: adım 1 → 2 (t ≈ 1/3)
+      hiwTl.to(steps[0], { autoAlpha: 0, y: -40, duration: 0.3, ease: 'power1.in' }, 0.85)
+           .to(screens[0], { autoAlpha: 0, duration: 0.3 }, 0.9)
+           .to(steps[1], { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power1.out' }, 1.05)
+           .to(screens[1], { autoAlpha: 1, duration: 0.3 }, 1.0)
+           .to(dots[0], Object.assign({ duration: 0.2 }, dotOff), 0.95)
+           .to(dots[1], Object.assign({ duration: 0.2 }, dotOn), 0.95);
+
+      // Geçiş 2: adım 2 → 3 (t ≈ 2/3)
+      hiwTl.to(steps[1], { autoAlpha: 0, y: -40, duration: 0.3, ease: 'power1.in' }, 1.85)
+           .to(screens[1], { autoAlpha: 0, duration: 0.3 }, 1.9)
+           .to(steps[2], { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power1.out' }, 2.05)
+           .to(screens[2], { autoAlpha: 1, duration: 0.3 }, 2.0)
+           .to(dots[1], Object.assign({ duration: 0.2 }, dotOff), 1.95)
+           .to(dots[2], Object.assign({ duration: 0.2 }, dotOn), 1.95);
+
+      /* --- İstatistikler: kart reveal + sayaçlar --- */
+      gsap.from('.stat-card', {
+        scrollTrigger: { trigger: '#stats', start: 'top 70%', once: true },
+        opacity: 0,
+        y: 40,
+        duration: 0.9,
+        ease: 'expo.out',
+        stagger: 0.15,
+        clearProps: 'opacity,transform'
+      });
+
+      var trFormat = new Intl.NumberFormat('tr-TR');
+      document.querySelectorAll('.stat-card__num').forEach(function (el) {
+        var target = parseFloat(el.getAttribute('data-count'));
+        var prefix = el.getAttribute('data-prefix') || '';
+        var suffix = el.getAttribute('data-suffix') || '';
+        var state = { val: 0 };
+        el.textContent = prefix + '0' + suffix;
+        gsap.to(state, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: '#stats', start: 'top 70%', once: true },
+          onUpdate: function () {
+            el.textContent = prefix + trFormat.format(Math.round(state.val)) + suffix;
+          }
+        });
+      });
+
+      /* --- Kategoriler: scale + fade stagger --- */
+      gsap.from('.cat', {
+        scrollTrigger: { trigger: '#categories', start: 'top 80%', once: true },
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.8,
+        ease: 'expo.out',
+        stagger: 0.08,
+        clearProps: 'opacity,transform'
+      });
+
+      /* --- CTA: blur reveal + buton --- */
+      gsap.from('.cta__title, .cta__sub', {
+        scrollTrigger: { trigger: '#cta', start: 'top 75%', once: true },
+        opacity: 0,
+        y: 30,
+        filter: 'blur(10px)',
+        duration: 1.2,
+        ease: 'expo.out',
+        stagger: 0.15,
+        clearProps: 'opacity,transform,filter'
+      });
+      gsap.from('#cta .btn', {
+        scrollTrigger: { trigger: '#cta', start: 'top 75%', once: true },
+        opacity: 0,
+        scale: 0.8,
+        duration: 1,
+        delay: 0.3,
+        ease: 'expo.out',
+        clearProps: 'opacity,transform'
+      });
+
+      /* --- Mobil kategori scroll: hafif rotateY --- */
+      var cats = document.getElementById('cats');
+      if (cats && window.matchMedia('(max-width: 768px)').matches) {
+        var catItems = Array.prototype.slice.call(cats.querySelectorAll('.cat'));
+        var pending = false;
+        var tiltCats = function () {
+          var mid = cats.scrollLeft + cats.clientWidth / 2;
+          catItems.forEach(function (c) {
+            var center = c.offsetLeft + c.offsetWidth / 2;
+            var d = (center - mid) / cats.clientWidth;
+            var deg = Math.max(-14, Math.min(14, d * -24));
+            c.style.transform = 'rotateY(' + deg + 'deg)';
+          });
+          pending = false;
+        };
+        cats.addEventListener('scroll', function () {
+          if (!pending) { pending = true; requestAnimationFrame(tiltCats); }
+        }, { passive: true });
+        tiltCats();
+      }
+
+      /* --- Resize / load sonrası ölçüm tazeleme --- */
+      window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+    }
+
+    /* ------------------------------------------------------------
+       LOADER: max 1 saniye, sonra hero girişi
+       ------------------------------------------------------------ */
+    var loader = document.getElementById('loader');
+    var loaderDone = false;
+
+    function hideLoader() {
+      if (loaderDone) return;
+      loaderDone = true;
+      if (animOn) {
+        gsap.to(loader, {
+          opacity: 0,
+          duration: 0.4,
+          ease: 'power1.out',
+          onComplete: function () {
+            loader.remove();
+            if (heroIntro) heroIntro();
+          }
+        });
+      } else {
+        loader.remove();
+      }
+    }
+
+    window.addEventListener('load', hideLoader);
+    setTimeout(hideLoader, 1000);
+  })();
+  </script>
+</body>
+</html>
