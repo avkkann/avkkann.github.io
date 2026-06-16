@@ -288,7 +288,7 @@
     .hero::before {
       content: "";
       position: absolute; inset: 0; z-index: 0;
-      background: radial-gradient(ellipse 70% 55% at 50% 48%, rgba(10, 61, 37, 0.38), transparent 70%);
+      background: radial-gradient(ellipse 64% 52% at 50% 48%, rgba(10, 61, 37, 0.5), rgba(10, 61, 37, 0.12) 62%, transparent 78%);
       pointer-events: none;
     }
     .hero__content { position: relative; z-index: 1; }
@@ -1143,6 +1143,56 @@
         var particles = new THREE.Points(particleGeo, particleMat);
         scene.add(particles);
 
+        // ----- Süzülen meyve & sebzeler (emoji sprite alanı) -----
+        // Emoji'yi tuvale yüksek çözünürlükte çizip CanvasTexture olarak kullan
+        var emojiTexCache = {};
+        function emojiTexture(emoji) {
+          if (emojiTexCache[emoji]) return emojiTexCache[emoji];
+          var px = 128;
+          var c = document.createElement('canvas');
+          c.width = c.height = px;
+          var ctx = c.getContext('2d');
+          ctx.font = Math.round(px * 0.8) + 'px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(emoji, px / 2, px / 2 + px * 0.04);
+          var tex = new THREE.CanvasTexture(c);
+          tex.minFilter = THREE.LinearFilter;
+          tex.generateMipmaps = false;
+          emojiTexCache[emoji] = tex;
+          return tex;
+        }
+
+        var PRODUCE = ['🍅', '🥕', '🍎', '🍋', '🥦', '🍆', '🍇', '🌽', '🫑', '🧅', '🍊', '🥑', '🍐', '🥒'];
+        var isSmallVp = window.matchMedia('(max-width: 768px)').matches;
+        var FRUIT_COUNT = isSmallVp ? 10 : 16;
+        var fieldW = isSmallVp ? 8 : 18;   // mobilde dar görüş alanına sığsın
+        var topY = 7.5, botY = -7.5, span = topY - botY;
+
+        var fruits = [];
+        for (var fi = 0; fi < FRUIT_COUNT; fi++) {
+          var emoji = PRODUCE[Math.floor(Math.random() * PRODUCE.length)];
+          var mat = new THREE.SpriteMaterial({ map: emojiTexture(emoji), transparent: true, depthWrite: false });
+          var sprite = new THREE.Sprite(mat);
+          var z = -1 - Math.random() * 6;            // -1 (yakın) .. -7 (uzak)
+          var depth01 = (z + 7) / 6;                 // 0 uzak .. 1 yakın
+          var scl = 0.55 + depth01 * 1.05;           // uzak küçük, yakın büyük
+          sprite.scale.set(scl, scl, 1);
+          var startX = (Math.random() - 0.5) * fieldW;
+          sprite.position.set(startX, Math.random() * span + botY, z);
+          mat.opacity = 0.34 + depth01 * 0.42;       // uzak soluk, yakın net (parallax derinlik)
+          sprite.userData = {
+            vy: 0.45 + depth01 * 0.85,               // yakın hızlı düşer
+            swayAmp: 0.4 + Math.random() * 0.6,
+            swayFreq: 0.35 + Math.random() * 0.5,
+            swayPhase: Math.random() * Math.PI * 2,
+            baseX: startX,
+            spin: (Math.random() - 0.5) * 0.5
+          };
+          scene.add(sprite);
+          fruits.push(sprite);
+        }
+
         var clock = new THREE.Clock();
         var rafId = null;
         var visible = true;
@@ -1154,6 +1204,17 @@
             s.rotation.x += dt * 0.15;
             s.rotation.y += dt * 0.2;
             s.position.y = s.userData.baseY + Math.sin(t * s.userData.speed + s.userData.phase) * 0.4;
+          });
+          fruits.forEach(function (f) {
+            var u = f.userData;
+            f.position.y -= u.vy * dt;
+            f.position.x = u.baseX + Math.sin(t * u.swayFreq + u.swayPhase) * u.swayAmp;
+            f.material.rotation += u.spin * dt;
+            if (f.position.y < botY) {                // alta inince üstten tekrar başlat
+              u.baseX = (Math.random() - 0.5) * fieldW;
+              f.position.x = u.baseX;
+              f.position.y = topY + Math.random() * 1.5;
+            }
           });
           particles.rotation.y += dt * 0.02;
           particles.position.y = Math.sin(t * 0.15) * 0.3;
