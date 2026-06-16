@@ -183,6 +183,24 @@
     }
 
     /* ============================================================
+       BÖLÜM GEÇİŞ PERDELERİ (her bölüme özel yön — tek seferlik)
+       ============================================================ */
+    .reveal-host { position: relative; overflow: hidden; }
+    .reveal-panel {
+      position: absolute; inset: 0; z-index: 6;
+      pointer-events: none;
+    }
+    /* JS yoksa / animasyon kapalıysa perde hiç görünmesin (içerik açıkta kalsın) */
+    .no-js .reveal-panel,
+    html:not(.has-anim) .reveal-panel { display: none; }
+    .reveal-panel--features { background: var(--primary); }
+    .reveal-panel--hiw      { background: #0a3d25; }
+    .reveal-panel--stats    { background: var(--primary); }
+    .reveal-panel--cats     { background: var(--primary-light); }
+    .reveal-panel--cta      { background: #0a3d25; }
+    @media (prefers-reduced-motion: reduce) { .reveal-panel { display: none; } }
+
+    /* ============================================================
        NAVİGASYON
        ============================================================ */
     .site-header {
@@ -749,12 +767,13 @@
     </section>
 
     <!-- ============ ÖZELLİKLER ============ -->
-    <section class="section" id="features" aria-labelledby="features-title">
+    <section class="section reveal-host" id="features" aria-labelledby="features-title">
+      <div class="reveal-panel reveal-panel--features" aria-hidden="true"></div>
       <div class="container">
         <div class="section-head">
           <span class="section-head__eyebrow">Özellikler</span>
           <h2 class="section-head__title" id="features-title">Neden Pazar?</h2>
-          <p class="section-head__sub">14.000+ ürün, 8 kategori, anlık fiyat karşılaştırma</p>
+          <p class="section-head__sub">15.000+ ürün, 8 kategori, anlık fiyat karşılaştırma</p>
         </div>
 
         <div class="features__grid">
@@ -812,6 +831,7 @@
     <!-- ============ NASIL ÇALIŞIR ============ -->
     <section id="how-it-works" aria-labelledby="hiw-title">
       <div class="hiw-stage">
+        <div class="reveal-panel reveal-panel--hiw" aria-hidden="true"></div>
         <div class="container hiw-inner">
           <div class="hiw-text">
             <h2 class="hiw-eyebrow" id="hiw-title">Nasıl Çalışır</h2>
@@ -820,7 +840,7 @@
               <div class="hiw-step" data-step="1">
                 <span class="hiw-step__num" aria-hidden="true">01</span>
                 <h3 class="hiw-step__title">Ürün Ara</h3>
-                <p class="hiw-step__desc">14.000+ ürün arasından istediğinizi bulun</p>
+                <p class="hiw-step__desc">15.000+ ürün arasından istediğinizi bulun</p>
               </div>
               <div class="hiw-step" data-step="2">
                 <span class="hiw-step__num" aria-hidden="true">02</span>
@@ -893,6 +913,7 @@
 
     <!-- ============ İSTATİSTİKLER ============ -->
     <section class="section" id="stats" aria-labelledby="stats-title">
+      <div class="reveal-panel reveal-panel--stats" aria-hidden="true"></div>
       <canvas id="stats-canvas" aria-hidden="true"></canvas>
       <div class="container stats__content">
         <div class="section-head">
@@ -903,7 +924,7 @@
         <div class="stats__grid">
           <div class="stat-card">
             <div class="stat-card__icon" aria-hidden="true">📦</div>
-            <div class="stat-card__num" data-count="14269">14.269</div>
+            <div class="stat-card__num" data-count="15395">15.395</div>
             <div class="stat-card__label">Toplam Ürün</div>
           </div>
           <div class="stat-card">
@@ -926,7 +947,8 @@
     </section>
 
     <!-- ============ KATEGORİLER ============ -->
-    <section class="section" id="categories" aria-labelledby="categories-title">
+    <section class="section reveal-host" id="categories" aria-labelledby="categories-title">
+      <div class="reveal-panel reveal-panel--cats" aria-hidden="true"></div>
       <div class="container">
         <div class="section-head">
           <span class="section-head__eyebrow">Kategoriler</span>
@@ -948,7 +970,8 @@
     </section>
 
     <!-- ============ CTA ============ -->
-    <section id="cta" aria-labelledby="cta-title">
+    <section class="reveal-host" id="cta" aria-labelledby="cta-title">
+      <div class="reveal-panel reveal-panel--cta" aria-hidden="true"></div>
       <div class="container">
         <h2 class="cta__title" id="cta-title">Alışverişinizi Akıllıca Yapın</h2>
         <p class="cta__sub">Türkiye'nin en kapsamlı pazar fiyat karşılaştırma uygulaması</p>
@@ -1515,6 +1538,23 @@
         }, { passive: true });
         tiltCats();
       }
+
+      /* --- Bölüm geçiş perdeleri: her biri farklı yön, tek seferlik --- */
+      function curtain(sel, vars) {
+        var panel = document.querySelector(sel);
+        if (!panel) return;
+        gsap.to(panel, Object.assign({
+          duration: 0.85,
+          ease: 'expo.inOut',
+          scrollTrigger: { trigger: panel.parentElement, start: 'top 78%', once: true },
+          onComplete: function () { panel.style.display = 'none'; }
+        }, vars));
+      }
+      curtain('.reveal-panel--features', { scaleY: 0, transformOrigin: 'top center' });    // yukarı sıyrılır
+      curtain('.reveal-panel--hiw',      { xPercent: -100 });                               // sola kayar
+      curtain('.reveal-panel--stats',    { scaleY: 0, transformOrigin: 'bottom center' });  // aşağı iner
+      curtain('.reveal-panel--cats',     { xPercent: 100, ease: 'power3.inOut' });          // sağa kayar
+      curtain('.reveal-panel--cta',      { scale: 1.18, autoAlpha: 0, ease: 'power2.out' });// zoom + erir
 
       /* --- Resize / load sonrası ölçüm tazeleme --- */
       window.addEventListener('load', function () { ScrollTrigger.refresh(); });
