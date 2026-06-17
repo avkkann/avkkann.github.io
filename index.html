@@ -214,9 +214,9 @@
     }
     .site-header.scrolled {
       --nav-ink: var(--text);
-      background: rgba(255, 255, 255, 0.9);
-      -webkit-backdrop-filter: blur(20px);
-      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
       box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.06);
     }
 
@@ -322,14 +322,18 @@
     .hero__content { position: relative; z-index: 1; }
 
     .hero__badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
-      padding: 8px 18px; border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-      margin-bottom: 28px;
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 9px 18px 9px 15px; border-radius: 999px;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 30px;
+    }
+    .hero__badge-dot {
+      width: 7px; height: 7px; border-radius: 999px;
+      background: var(--accent); flex: 0 0 auto;
+      box-shadow: 0 0 0 4px rgba(217, 118, 6, 0.18);
     }
 
     .hero__title {
@@ -798,7 +802,7 @@
     <!-- ============ HERO ============ -->
     <section class="hero" id="hero" aria-label="Tanıtım">
       <div class="hero__content container">
-        <p class="hero__badge">🇹🇷 Hal + market fiyatları tek ekranda</p>
+        <p class="hero__badge"><span class="hero__badge-dot" aria-hidden="true"></span>Hal + market fiyatları, tek ekranda</p>
         <h1 class="hero__title" id="hero-title">Pazar</h1>
         <p class="hero__subtitle" id="hero-subtitle">Türkiye'nin Akıllı Pazar Rehberi</p>
         <div class="hero__actions">
@@ -1169,7 +1173,7 @@
           renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
         } catch (e) { return null; }
 
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
         renderer.setSize(window.innerWidth, window.innerHeight);
         if ('sRGBEncoding' in THREE) renderer.outputEncoding = THREE.sRGBEncoding;
 
@@ -1187,11 +1191,11 @@
 
         // Cam küreler (low-poly, paylaşılan geometri)
         var sphereGeo = new THREE.SphereGeometry(1, 32, 32);
-        var glassMat = new THREE.MeshPhysicalMaterial({
+        // Yumuşak bokeh küreleri — transmission YOK (her karede ek render pass'i
+        // tetikliyordu = kasma kaynağı). MeshStandard ışıkla yumuşak gölge verir, ucuz.
+        var glassMat = new THREE.MeshStandardMaterial({
           color: 0xbff5dd,
-          transmission: 0.55,
-          roughness: 0.1,
-          thickness: 0.5,
+          roughness: 0.55,
           metalness: 0,
           transparent: true,
           opacity: 0.13,
@@ -1454,7 +1458,7 @@
           renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
         } catch (e) { return; }
 
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 50);
@@ -1564,6 +1568,30 @@
           .to('.hero__actions > *', { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 0.85)
           .to('.hero__hint', { opacity: 0.7, y: 0, duration: 0.8, clearProps: 'transform' }, 1.1);
       };
+
+      /* --- Bölüm başlıkları: kaydırınca yumuşak beliriş (transform/opacity, tek sefer) --- */
+      gsap.utils.toArray('.section-head').forEach(function (head) {
+        gsap.from(head.children, {
+          scrollTrigger: { trigger: head, start: 'top 82%', once: true },
+          opacity: 0,
+          y: 26,
+          duration: 0.9,
+          ease: 'expo.out',
+          stagger: 0.1,
+          clearProps: 'opacity,transform'
+        });
+      });
+
+      /* --- Güven şeridi: marka isimleri sırayla belirsin --- */
+      gsap.from('.trust__label, .trust__logos li:not(.trust__sep)', {
+        scrollTrigger: { trigger: '.trust', start: 'top 88%', once: true },
+        opacity: 0,
+        y: 16,
+        duration: 0.7,
+        ease: 'power2.out',
+        stagger: 0.05,
+        clearProps: 'opacity,transform'
+      });
 
       /* --- Özellik kartları: staggered reveal --- */
       gsap.from('.card', {
