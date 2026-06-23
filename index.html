@@ -150,11 +150,11 @@
       font-weight: 500; font-size: 17px;
       padding: 0.8em 1.3em 0.8em 0.9em;
       color: var(--white);
-      background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+      background: linear-gradient(to right, #b85a05, #D97606 55%, #f08a2a);
       border: 0; letter-spacing: 0.05em;
       border-radius: 16px;
       text-decoration: none;
-      box-shadow: 0 10px 24px rgba(15, 12, 41, 0.28);
+      box-shadow: 0 10px 24px rgba(217, 118, 6, 0.3);
     }
     .btn-send svg {
       margin-right: 3px;
@@ -174,9 +174,65 @@
       font-size: 14px;
       padding: 0.55em 1em 0.55em 0.75em;
       border-radius: 10px;
-      box-shadow: 0 6px 14px rgba(15, 12, 41, 0.25);
+      box-shadow: 0 6px 14px rgba(217, 118, 6, 0.28);
     }
     .btn-send--small svg { width: 16px; height: 16px; }
+
+    .btn-send--xl {
+      font-size: 18px;
+      padding: 1.05em 1.7em 1.05em 1.45em;
+      border-radius: 16px;
+      box-shadow: 0 16px 38px rgba(217, 118, 6, 0.38);
+      animation: cta-pulse 2s ease-in-out infinite;
+    }
+    .btn-send--xl svg { width: 24px; height: 24px; margin-right: 6px; }
+    .btn-send--xl:hover,
+    .btn-send--xl:focus-visible { animation-play-state: paused; }
+
+    /* Frame-style CTA — şeffaf zemin, köşe çerçeveleri açılır + shine sweep */
+    .btn-frame {
+      position: relative;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 16px 32px;
+      font-family: inherit; font-weight: 500; font-size: 14px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--white); background: transparent;
+      border: 0; border-radius: 8px;
+      cursor: pointer; overflow: hidden;
+      text-decoration: none;
+    }
+    .btn-frame__label { position: relative; z-index: 2; }
+    /* shine: soldan sağa süzülen yarı-saydam dilim */
+    .btn-frame__shine {
+      position: absolute; top: 0; left: -75%;
+      width: 50%; height: 100%;
+      background: rgba(255, 255, 255, 0.22);
+      transform: rotate(12deg);
+      filter: blur(16px);
+      z-index: 1; pointer-events: none;
+      transition: left 1s ease-in-out;
+    }
+    .btn-frame:hover .btn-frame__shine,
+    .btn-frame:focus-visible .btn-frame__shine { left: 125%; }
+    /* 4 köşe çerçeveleri — TR ve BL hover'da uzar */
+    .btn-frame__corner {
+      position: absolute; width: 50%;
+      border-color: #D4EDF9; border-style: solid; border-width: 0;
+      transition: height 0.3s ease;
+      pointer-events: none;
+    }
+    .btn-frame__corner--tl { top: 0; left: 0; height: 20%;
+      border-top-left-radius: 8px; border-left-width: 2px; border-top-width: 2px; }
+    .btn-frame__corner--tr { top: 0; right: 0; height: 60%;
+      border-top-right-radius: 8px; border-right-width: 2px; border-top-width: 2px; }
+    .btn-frame__corner--bl { bottom: 0; left: 0; height: 60%;
+      border-bottom-left-radius: 8px; border-left-width: 2px; border-bottom-width: 2px; }
+    .btn-frame__corner--br { bottom: 0; right: 0; height: 20%;
+      border-bottom-right-radius: 8px; border-right-width: 2px; border-bottom-width: 2px; }
+    .btn-frame:hover .btn-frame__corner--tr,
+    .btn-frame:focus-visible .btn-frame__corner--tr,
+    .btn-frame:hover .btn-frame__corner--bl,
+    .btn-frame:focus-visible .btn-frame__corner--bl { height: 90%; }
     .btn--xl:hover, .btn--xl:focus-visible {
       animation-play-state: paused;
       transform: scale(1.08);
@@ -885,7 +941,14 @@
             </svg>
             <span>Ücretsiz Başla</span>
           </a>
-          <a class="btn btn--ghost" href="#how-it-works">Nasıl Çalışır?</a>
+          <a class="btn-frame" href="#how-it-works">
+            <span class="btn-frame__label">Nasıl Çalışır?</span>
+            <span class="btn-frame__shine" aria-hidden="true"></span>
+            <span class="btn-frame__corner btn-frame__corner--tl" aria-hidden="true"></span>
+            <span class="btn-frame__corner btn-frame__corner--tr" aria-hidden="true"></span>
+            <span class="btn-frame__corner btn-frame__corner--bl" aria-hidden="true"></span>
+            <span class="btn-frame__corner btn-frame__corner--br" aria-hidden="true"></span>
+          </a>
         </div>
       </div>
       <div class="hero__hint" aria-hidden="true">
@@ -1137,7 +1200,13 @@
       <div class="container">
         <h2 class="cta__title" id="cta-title">Alışverişinizi Akıllıca Yapın</h2>
         <p class="cta__sub">Türkiye'nin en kapsamlı pazar fiyat karşılaştırma uygulaması</p>
-        <a class="btn btn--xl" href="https://avkkann.github.io/pazar-app">Hemen Başla</a>
+        <a class="btn-send btn-send--xl" href="https://avkkann.github.io/pazar-app">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          <span>Hemen Başla</span>
+        </a>
       </div>
     </section>
 
@@ -1774,7 +1843,7 @@
         stagger: 0.15,
         clearProps: 'opacity,transform,filter'
       });
-      gsap.from('#cta .btn', {
+      gsap.from('#cta .btn-send', {
         scrollTrigger: { trigger: '#cta', start: 'top 75%', once: true },
         opacity: 0,
         scale: 0.8,
