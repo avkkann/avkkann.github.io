@@ -420,45 +420,17 @@
     .hero__content { position: relative; z-index: 1; }
 
     .hero__badge {
-      display: inline-flex; align-items: center; gap: 9px;
-      font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 9px 18px 9px 15px; border-radius: 999px;
-      color: rgba(255, 255, 255, 0.9);
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.88);
       margin-bottom: 30px;
     }
     .hero__badge-dot {
-      width: 7px; height: 7px; border-radius: 999px;
+      width: 6px; height: 6px; border-radius: 999px;
       background: var(--accent); flex: 0 0 auto;
       box-shadow: 0 0 0 4px rgba(217, 118, 6, 0.18);
     }
-    /* Shine sweep: peak parlak beyaz, base yeşil zemine göre yüksek opaklık */
-    .hero__badge-text {
-      display: inline-block;
-      background-image: linear-gradient(
-        100deg,
-        rgba(255, 255, 255, 0.82) 0%,
-        rgba(255, 255, 255, 0.82) 40%,
-        #ffffff 50%,
-        rgba(255, 255, 255, 0.82) 60%,
-        rgba(255, 255, 255, 0.82) 100%
-      );
-      /* 300% size + 0..100% sweep: gradient her zaman text'i tamamen kaplar */
-      background-size: 300% 100%;
-      background-repeat: no-repeat;
-      background-position: 100% 0;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-      animation: badge-shine 3.4s linear infinite;
-    }
-    @keyframes badge-shine {
-      0%   { background-position: 100% 0; }
-      60%  { background-position: 0% 0; }
-      100% { background-position: 0% 0; }
-    }
+    .hero__badge-text { display: inline-block; }
 
     .hero__title {
       font-family: var(--font-display); font-weight: 700;
