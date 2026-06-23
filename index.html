@@ -142,6 +142,41 @@
       padding: 20px 48px; font-size: 18px; border-radius: 16px;
       animation: cta-pulse 2s ease-in-out infinite;
     }
+
+    /* Send-style CTA (uçak ikonu uçar, metin sağa kayar) */
+    .btn-send {
+      display: inline-flex; align-items: center;
+      font-family: inherit; cursor: pointer;
+      font-weight: 500; font-size: 17px;
+      padding: 0.8em 1.3em 0.8em 0.9em;
+      color: var(--white);
+      background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+      border: 0; letter-spacing: 0.05em;
+      border-radius: 16px;
+      text-decoration: none;
+      box-shadow: 0 10px 24px rgba(15, 12, 41, 0.28);
+    }
+    .btn-send svg {
+      margin-right: 3px;
+      transform: rotate(30deg);
+      transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .btn-send span {
+      display: inline-block;
+      transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .btn-send:hover svg,
+    .btn-send:focus-visible svg { transform: translateX(5px) rotate(90deg); }
+    .btn-send:hover span,
+    .btn-send:focus-visible span { transform: translateX(7px); }
+
+    .btn-send--small {
+      font-size: 14px;
+      padding: 0.55em 1em 0.55em 0.75em;
+      border-radius: 10px;
+      box-shadow: 0 6px 14px rgba(15, 12, 41, 0.25);
+    }
+    .btn-send--small svg { width: 16px; height: 16px; }
     .btn--xl:hover, .btn--xl:focus-visible {
       animation-play-state: paused;
       transform: scale(1.08);
@@ -820,7 +855,13 @@
         <a class="nav__link" href="#features">Özellikler</a>
         <a class="nav__link" href="#how-it-works">Nasıl Çalışır</a>
         <a class="nav__link" href="#stats">İstatistikler</a>
-        <a class="btn btn--small" href="https://avkkann.github.io/pazar-app">Ücretsiz Başla</a>
+        <a class="btn-send btn-send--small" href="https://avkkann.github.io/pazar-app">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          <span>Ücretsiz Başla</span>
+        </a>
       </nav>
       <label class="nav__burger" for="nav-toggle" aria-hidden="true">
         <span></span><span></span><span></span>
@@ -837,7 +878,13 @@
         <h1 class="hero__title" id="hero-title">Pazar</h1>
         <p class="hero__subtitle" id="hero-subtitle">Türkiye'nin Akıllı Pazar Rehberi</p>
         <div class="hero__actions">
-          <a class="btn" href="https://avkkann.github.io/pazar-app">Ücretsiz Başla</a>
+          <a class="btn-send" href="https://avkkann.github.io/pazar-app">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            <span>Ücretsiz Başla</span>
+          </a>
           <a class="btn btn--ghost" href="#how-it-works">Nasıl Çalışır?</a>
         </div>
       </div>
