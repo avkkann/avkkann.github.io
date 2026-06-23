@@ -1711,13 +1711,15 @@
       gsap.set(titleChars, { opacity: 0, y: 70, rotateX: -45, filter: 'blur(8px)' });
       gsap.set(subtitleChars, { opacity: 0, y: 18 });
       gsap.set('.hero__badge, .hero__actions > *, .hero__hint', { opacity: 0, y: 20 });
+      gsap.set('.hero__badge-text', { clipPath: 'inset(0 100% 0 0)' });
       gsap.set('.site-header', { opacity: 0, y: -16 });
 
       heroIntro = function () {
         gsap.timeline({ defaults: { ease: 'expo.out' } })
           .to(titleChars, { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)', duration: 1.1, stagger: 0.04 }, 0.05)
           .to(subtitleChars, { opacity: 1, y: 0, duration: 0.7, stagger: 0.02 }, 0.45)
-          .to('.hero__badge', { opacity: 1, y: 0, duration: 0.8 }, 0.3)
+          .to('.hero__badge', { opacity: 1, y: 0, duration: 0.5 }, 0.3)
+          .to('.hero__badge-text', { clipPath: 'inset(0 0% 0 0)', duration: 1.0, ease: 'power3.out' }, 0.45)
           .to('.site-header', { opacity: 1, y: 0, duration: 0.7 }, 0.25)
           .to('.hero__actions > *', { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 0.85)
           .to('.hero__hint', { opacity: 0.7, y: 0, duration: 0.8, clearProps: 'transform' }, 1.1);
